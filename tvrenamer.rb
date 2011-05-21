@@ -19,7 +19,10 @@ require 'fileutils'
 require 'pp'
 require 'time'
 include REXML
-require File.expand_path(File.dirname(__FILE__)) + '/net-http-compression.rb'
+
+file = File.symlink?(__FILE__) ? File.readlink(__FILE__) : __FILE__
+
+require File.expand_path(File.dirname(file)) + '/net-http-compression.rb'
 
 API_KEY = 'F63030FC56E9E594'
 
