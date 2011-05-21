@@ -50,11 +50,12 @@ class Series
 
   attr_reader :name, :episodes
 
-  def initialize(name, refresh)
+  def initialize(name, refresh, language)
     @name = name
     do_name_overrides
-    @series_xml_path = Pathname.new("#{@@config_dir}/xml_cache/series_data/" + @name + ".xml")
-    @episodes_xml_path = Pathname.new("#{@@config_dir}/xml_cache/episode_data/" + @name + ".xml")
+    @language = language
+    @series_xml_path = Pathname.new("#{@@config_dir}/xml_cache/series_data/#{@name}.#{@language}.xml")
+    @episodes_xml_path = Pathname.new("#{@@config_dir}/xml_cache/episode_data/#{@name}.#{@language}.xml")
     @episodes = Hash.new
     @series_xml_path.delete if @series_xml_path.file?
     @episodes_xml_path.delete if @episodes_xml_path.file?
@@ -107,7 +108,7 @@ class Series
     s.gsub(".","")
   end
   def get_episodes_xml(series_id)
-    uri = URI.parse("http://thetvdb.com/api/#{API_KEY}/series/#{series_id}/all/en.xml")
+    uri = URI.parse("http://thetvdb.com/api/#{API_KEY}/series/#{series_id}/all/#{@language}.xml")
     res = RemoteRequest.new("get").read(uri)
 
     if res.nil?
@@ -123,7 +124,7 @@ class Series
 
   def get_series_xml
     name = @name.sub(/\(/, "").sub(/\)/, "")
-    uri = URI.parse("http://thetvdb.com/api/GetSeries.php?seriesname=#{CGI::escape(name)}&language=en")
+    uri = URI.parse("http://thetvdb.com/api/GetSeries.php?seriesname=#{CGI::escape(name)}&language=#{@language}")
 
     res = RemoteRequest.new("get").read(uri)
 
@@ -315,6 +316,8 @@ def get_details(file, refresh)
   end
 
   return nil unless  /\d+/ =~ file.basename
+  
+  language = file.parent.basename.to_s.match(/Saison/i) ? 'fr': 'en'
 
   # check for a match in the style of 1x01
   if /(\d+)[x|X](\d+)([x|X](\d+))?/ =~ file.basename
@@ -346,11 +349,11 @@ def get_details(file, refresh)
 
   return nil if episode_number.to_i > 99
 
-  if @@series[show_name].nil?
-    @@series[show_name] = Series.new show_name, refresh
-    series = @@series[show_name]
+  if @@series[show_name][language].nil?
+    @@series[show_name][language] = Series.new show_name, refresh, language
+    series = @@series[show_name][language]
   else
-    series = @@series[show_name]
+    series = @@series[show_name][language]
   end
   return nil if series.episodes.size < 1
 
@@ -450,7 +453,7 @@ parser.set_options(
 )
 
 @@config = {}
-@@series = {}
+@@series = Hash.new(Hash.new)
 
 if !ENV["HOME"].nil?
   @@config_dir = "#{ENV["HOME"]}/.ruby-tvscripts"
