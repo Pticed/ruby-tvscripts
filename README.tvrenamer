@@ -53,6 +53,7 @@ Formatting variables:
 %S = Series Name
 %E = Episode Name
 %s = Season Number
+%2s = Season Number (zero-padded)
 %e = Episode Number
 %p = Part Number (optional)
 %E2 = Episode 2 Name (optional)
