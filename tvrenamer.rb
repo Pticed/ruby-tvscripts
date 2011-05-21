@@ -202,7 +202,8 @@ def fix_name!(episode, filename)
 
   format_values = {
     '%S' => episode[0][1]['series'],
-    '%s' => episode[0][1]['season'].rjust(2, "0"),
+    '%2s' => episode[0][1]['season'].rjust(2, "0"),
+    '%s' => episode[0][1]['season'],
     '%E1' => episode[0][1]['name'],
     '%e1' => episode[0][1]['episode_number'].rjust(2, "0"),
     '%p1' => episode[0][1]['part'],
@@ -490,7 +491,7 @@ end
 
 # If I have no format anywhere, use the default.
 if @@config['format'].nil?
-  @@config['format'] = "%S s%se%e1[e%e2] - %E1[ (Part %p1)][ - %E2[ (Part %p2)]]"
+  @@config['format'] = "%S s%2se%e1[e%e2] - %E1[ (Part %p1)][ - %E2[ (Part %p2)]]"
 end
 
 path = ARGV.shift
