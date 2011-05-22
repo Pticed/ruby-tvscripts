@@ -276,15 +276,15 @@ def make_name(format_values, format_string)
   new_basename.gsub!(/\[/, "")
 
   # sanitize the name
-  new_basename.gsub!(/\:/, "-")
-  ["?","\\",":","\"","|",">", "<", "*", "/"].each {|l| new_basename.gsub!(l,"")}
-  new_basename.strip
+  sanitize_name(new_basename)
 end
 
 def sanitize_name(name)
   # sanitize the name
   name.gsub!(/\:/, "-")
-  ["?","\\",":","\"","|",">", "<", "*", "/"].each {|l| name.gsub!(l,"")}
+  ["?","\\",":","\"","|",">", "<", "*", "/"].each { |l| name.gsub!(l,"") }
+  ["é","ë","è","ê"].each { |l| name.gsub!(l,"e") }
+  name.gsub!("à","a")
   name.strip
 end
 
