@@ -350,11 +350,9 @@ def get_details(file, refresh)
   return nil if episode_number.to_i > 99
 
   if @@series[show_name][language].nil?
-    @@series[show_name][language] = Series.new show_name, refresh, language
-    series = @@series[show_name][language]
-  else
-    series = @@series[show_name][language]
+    @@series[show_name][language] = Series.new(show_name, refresh, language)
   end
+  series = @@series[show_name][language]
   return nil if series.episodes.size < 1
 
   begin
