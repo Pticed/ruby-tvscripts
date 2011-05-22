@@ -284,7 +284,9 @@ def sanitize_name(name)
   name.gsub!(/\:/, "-")
   ["?","\\",":","\"","|",">", "<", "*", "/"].each { |l| name.gsub!(l,"") }
   ["é","ë","è","ê"].each { |l| name.gsub!(l,"e") }
+  name.gsub!("ï","i")
   name.gsub!("à","a")
+  name.gsub!("ñ","n")
   name.strip
 end
 
