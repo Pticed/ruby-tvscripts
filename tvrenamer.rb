@@ -8,6 +8,9 @@
 # READ THE README #
 ###################
 
+require 'rubygems'
+require 'nokogiri'
+
 require 'yaml'
 require 'getoptlong'
 require 'net/http'
@@ -18,7 +21,7 @@ require 'find'
 require 'fileutils'
 require 'pp'
 require 'time'
-include REXML
+
 
 file = File.symlink?(__FILE__) ? File.readlink(__FILE__) : __FILE__
 
@@ -56,7 +59,7 @@ class Series
     @language = language
     @series_xml_path = Pathname.new("#{@@config_dir}/xml_cache/series_data/#{@name}.#{@language}.xml")
     @episodes_xml_path = Pathname.new("#{@@config_dir}/xml_cache/episode_data/#{@name}.#{@language}.xml")
-    @episodes = Hash.new
+    @episodes = Hash.new { |hash,key| hash[key] = {} }
     @series_xml_path.delete if @series_xml_path.file? && cache_expired(@series_xml_path)
     @episodes_xml_path.delete if @episodes_xml_path.file? && cache_expired(@episodes_xml_path)
     if not @series_xml_path.file?
@@ -71,11 +74,11 @@ class Series
       puts "Loading #{@name} [#{@language}] serie from cache"
       series_xml = @series_xml_path.read
     end
-    @series_xmldoc = Document.new(series_xml)
+    @series_xmldoc = Nokogiri::XML(series_xml)
 
     return nil if series_xml.nil? or series_xml.empty?
 
-    @name = @series_xmldoc.elements["Series/SeriesName"].text
+    @name = (@series_xmldoc/"Series/SeriesName").text
 
     if not @episodes_xml_path.file?
       puts "Fetching #{@name} [#{@language}] episodes from thetvdb"
@@ -90,16 +93,16 @@ class Series
       puts "Loading #{@name} [#{@language}] episodes from cache"
       episodes_xml = @episodes_xml_path.read
     end
-    @episodes_xmldoc = Document.new(episodes_xml) unless episodes_xml.nil?
-
-    @episodes_xmldoc.elements.each("Data/Episode") do |episode|
-      @episodes[episode.elements["SeasonNumber"].text] = Hash.new unless @episodes[episode.elements["SeasonNumber"].text].class == Hash
-      @episodes[episode.elements["SeasonNumber"].text][episode.elements["EpisodeNumber"].text] = episode.elements["EpisodeName"].text
+    @episodes_xmldoc = Nokogiri::XML(episodes_xml) unless episodes_xml.nil?
+    
+    @episodes_xmldoc.xpath("Data/Episode").each do |episode|
+      @episodes[(episode/"SeasonNumber").text][(episode/"EpisodeNumber").text] = (episode/"EpisodeName").text 
     end unless @episodes_xmldoc.nil?
+
   end
 
   def id()
-    @series_xmldoc.elements["Series/id"].text
+    (@series_xmldoc/"Series/id").text
   end
 
   def do_name_overrides
