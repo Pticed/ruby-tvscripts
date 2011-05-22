@@ -57,25 +57,28 @@ class Series
     @series_xml_path = Pathname.new("#{@@config_dir}/xml_cache/series_data/#{@name}.#{@language}.xml")
     @episodes_xml_path = Pathname.new("#{@@config_dir}/xml_cache/episode_data/#{@name}.#{@language}.xml")
     @episodes = Hash.new
-    @series_xml_path.delete if @series_xml_path.file?
-    @episodes_xml_path.delete if @episodes_xml_path.file?
+    @series_xml_path.delete if @series_xml_path.file? && cache_expired(@series_xml_path)
+    @episodes_xml_path.delete if @episodes_xml_path.file? && cache_expired(@episodes_xml_path)
     if not @series_xml_path.file?
+      puts "Fetching #{@name} [#{@language}] serie from thetvdb"
       series_xml = get_series_xml()
       #ensure we have a xml_cache dir
       unless @series_xml_path.dirname.directory?
         FileUtils.mkdir_p(@series_xml_path.dirname.to_s)
       end
       @series_xml_path.open("w")  {|file| file.puts series_xml} unless series_xml.nil? or series_xml.empty?
-      @series_xmldoc = Document.new(series_xml)
     else
-      @series_xml_path.open("r") {|file| @series_xmldoc = Document.new(file) }
+      puts "Loading #{@name} [#{@language}] serie from cache"
+      series_xml = @series_xml_path.read
     end
+    @series_xmldoc = Document.new(series_xml)
 
     return nil if series_xml.nil? or series_xml.empty?
 
     @name = @series_xmldoc.elements["Series/SeriesName"].text
 
     if not @episodes_xml_path.file?
+      puts "Fetching #{@name} [#{@language}] episodes from thetvdb"
       episodes_xml = get_episodes_xml(id)
 
       #ensure we have a xml_cache dir
@@ -83,10 +86,11 @@ class Series
         FileUtils.mkdir_p(@episodes_xml_path.dirname.to_s)
       end
       @episodes_xml_path.open("w")  {|file| file.puts episodes_xml}
-      @episodes_xmldoc = Document.new(episodes_xml) unless episodes_xml.nil?
     else
-      @episodes_xml_path.open("r") {|file| @episodes_xmldoc = Document.new(file) }
+      puts "Loading #{@name} [#{@language}] episodes from cache"
+      episodes_xml = @episodes_xml_path.read
     end
+    @episodes_xmldoc = Document.new(episodes_xml) unless episodes_xml.nil?
 
     @episodes_xmldoc.elements.each("Data/Episode") do |episode|
       @episodes[episode.elements["SeasonNumber"].text] = Hash.new unless @episodes[episode.elements["SeasonNumber"].text].class == Hash
@@ -146,6 +150,12 @@ class Series
 
   def get_episode(filename, season, episode_number, refresh)
     Episode.new(self, filename, season, episode_number, refresh)
+  end
+
+  private
+
+  def cache_expired(filepath)
+    Time.now - File.mtime(filepath) > @@series_cache
   end
 end
 
