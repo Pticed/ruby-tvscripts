@@ -523,7 +523,7 @@ cache_file.readlines.each { |line|
 puts "Loaded cache" unless ENV['QUIET'] == "true"
 
 puts "Starting to scan files" unless ENV['QUIET'] == "true"
-Dir.glob("**/*.{avi,mpg,mpeg,mp4,divx,mkv}") do |filename|
+Dir.glob("**/*.{avi,mpg,mpeg,mp4,m4v,divx,mkv}") do |filename|
   filename = filename.to_s
   if nocache or @@renamer_cache[filename].nil? or @@renamer_cache[filename] < (Time.now - @@time_to_live)
     @@renamer_cache.delete(filename)
