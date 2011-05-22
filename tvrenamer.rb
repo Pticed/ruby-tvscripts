@@ -453,7 +453,7 @@ parser.set_options(
 )
 
 @@config = {}
-@@series = Hash.new { |hash,key| hash[:hey] = {} }
+@@series = Hash.new { |hash,key| hash[key] = {} }
 
 if !ENV["HOME"].nil?
   @@config_dir = "#{ENV["HOME"]}/.ruby-tvscripts"
