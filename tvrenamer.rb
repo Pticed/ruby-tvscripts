@@ -122,8 +122,8 @@ class Series
       return nil
     end
 
-    doc = Document.new res
-    doc.elements.each("Data") do |element|
+    doc = Nokogiri::XML(res)
+    doc.xpath("Data").each do |element|
       return element.to_s
     end
   end
@@ -134,14 +134,14 @@ class Series
 
     res = RemoteRequest.new("get").read(uri)
 
-    doc = Document.new res
+    doc = Nokogiri::XML(res)
 
     series_xml = nil
     series_element = nil
 
-    doc.elements.each("Data/Series") do |element|
+    doc.xpath("Data/Series").each do |element|
       series_element ||= element
-        if strip_dots(element.elements["SeriesName"].text.downcase) == strip_dots(@name.downcase)
+        if strip_dots((element/"SeriesName").text.downcase) == strip_dots(@name.downcase)
         series_element = element
         break
       end
