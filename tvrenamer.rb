@@ -15,7 +15,6 @@ require 'yaml'
 require 'getoptlong'
 require 'net/http'
 require "cgi"
-require 'rexml/document'
 require 'pathname'
 require 'find'
 require 'fileutils'
