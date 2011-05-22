@@ -283,9 +283,11 @@ def sanitize_name(name)
   # sanitize the name
   name.gsub!(/\:/, "-")
   ["?","\\",":","\"","|",">", "<", "*", "/"].each { |l| name.gsub!(l,"") }
+  ["á","ä","à","â"].each { |l| name.gsub!(l,"a") }
   ["é","ë","è","ê"].each { |l| name.gsub!(l,"e") }
-  name.gsub!("ï","i")
-  name.gsub!("à","a")
+  ["í","ï","ì","î"].each { |l| name.gsub!(l,"i") }
+  ["ó","ö","ò","ô"].each { |l| name.gsub!(l,"o") }
+  ["ú","ü","ù","û"].each { |l| name.gsub!(l,"u") }
   name.gsub!("ñ","n")
   name.strip
 end
