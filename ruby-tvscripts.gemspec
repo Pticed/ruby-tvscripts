@@ -8,7 +8,7 @@ Gem::Specification.new do |spec|
   
   spec.summary = "A collection of scripts to manage and organize your TV show library"
   
-  spec.files = ["lib/ruby-tvscripts/net-http-compression.rb"]
+  spec.files = ["lib/ruby-tvscripts/net-http-compression.rb", "lib/ruby-tvscripts/remote_request.rb"]
   spec.executables = ["delete-watched", "download-status", "trakt-library-import", "tvmover", "tvrenamer" ]
   
 end
