@@ -4,14 +4,14 @@ class RemoteRequest
     @opener = self.class.const_get(method.capitalize)
   end
 
-  def read(url)
-    data = @opener.read(url)
+  def read(uri)
+    data = @opener.read(uri)
     data
   end
 
   private
     class Get
-      def self.read(url)
+      def self.read(uri)
         attempt_number=0
         errors=""
         begin
@@ -20,7 +20,7 @@ class RemoteRequest
             return nil
           end
 
-          file = Net::HTTP.get_response URI.parse(url)
+          file = Net::HTTP.get_response uri
           if (file.message != "OK") then
             raise InvalidResponseFromFeed, file.message
           end

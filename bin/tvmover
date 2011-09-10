@@ -67,11 +67,11 @@ class Series
   end
 
   def get_series_xml
-    url = URI.parse("http://thetvdb.com/api/GetSeries.php?seriesname=#{CGI::escape(@name)}&language=en")
+    uri = URI.parse("http://thetvdb.com/api/GetSeries.php?seriesname=#{CGI::escape(@name)}&language=en")
 
-    puts "Getting: #{url}"
+    puts "Getting: #{uri}"
 
-    res = RemoteRequest.new("get").read(url)
+    res = RemoteRequest.new("get").read(uri)
 
     doc = Document.new res
 
