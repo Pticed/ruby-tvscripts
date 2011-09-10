@@ -1,4 +1,5 @@
 require 'nokogiri'
+require 'ruby-tvscripts/config'
 require 'ruby-tvscripts/episode'
 
 class Series
@@ -9,8 +10,8 @@ class Series
     @name = name
     do_name_overrides
     @language = language
-    @series_xml_path = Pathname.new("#{@@config_dir}/xml_cache/series_data/#{@name}.#{@language}.xml")
-    @episodes_xml_path = Pathname.new("#{@@config_dir}/xml_cache/episode_data/#{@name}.#{@language}.xml")
+    @series_xml_path = Pathname.new("#{Config.dir}/xml_cache/series_data/#{@name}.#{@language}.xml")
+    @episodes_xml_path = Pathname.new("#{Config.dir}/xml_cache/episode_data/#{@name}.#{@language}.xml")
     @episodes = Hash.new { |hash,key| hash[key] = {} }
     @series_xml_path.delete if @series_xml_path.file? && cache_expired(@series_xml_path)
     @episodes_xml_path.delete if @episodes_xml_path.file? && cache_expired(@episodes_xml_path)

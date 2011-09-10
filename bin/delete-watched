@@ -1,6 +1,8 @@
 #!/usr/bin/env ruby
 #
 
+require 'rubygems'
+
 require 'yaml'
 require 'rubygems'
 require 'getoptlong'
@@ -12,6 +14,8 @@ require 'time'
 require 'prowl'
 require 'logger'
 require 'sequel'
+
+require 'ruby-tvscripts/config'
 
 def usage()
   puts
@@ -39,21 +43,13 @@ loop do
   end
 end
 
-if !ENV["HOME"].nil?
-  @@config_dir = "#{ENV["HOME"]}/.ruby-tvscripts"
-elsif !ENV["APPDATA"].nil?
-  @@config_dir = "#{ENV["APPDATA"]}/.ruby-tvscripts"
+if File.exist?(Config.file("delete-watched.yml"))
+  SETTINGS = YAML.load_file(Config.file("delete-watched.yml"))
 else
-  @@config_dir = ""
+  puts "Please create a #{Config.file('delete-watched.yml')} file with your api key.  Please see example file."
 end
 
-if File.exist?("#{@@config_dir}/delete-watched.yml")
-  SETTINGS = YAML.load_file( "#{@@config_dir}/delete-watched.yml" )
-else
-  puts "Please create a #{@@config_dir}/delete-watched.yml file with your api key.  Please see example file."
-end
-
-puts "Was not able to get DB file, please check #{@@config_dir}/delete-watched.yml file.  Please see example file." if SETTINGS.nil? or SETTINGS.empty?
+puts "Was not able to get DB file, please check #{Config.file('delete-watched.yml')} file.  Please see example file." if SETTINGS.nil? or SETTINGS.empty?
 puts "DB settings need to include an engine type" if SETTINGS['databases'][0]['engine'].nil?
 
 DB = []

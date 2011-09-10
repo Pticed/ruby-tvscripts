@@ -23,6 +23,7 @@ require 'time'
 require 'ruby-tvscripts/net-http-compression'
 require 'ruby-tvscripts/remote_request'
 require 'ruby-tvscripts/serie'
+require 'ruby-tvscripts/config'
 
 API_KEY = 'F63030FC56E9E594'
 
@@ -111,7 +112,7 @@ def fix_name!(episode, filename)
   #Filename has not changed
   if new_filename.to_s == filename.to_s
     @@renamer_cache.merge!({new_filename => Time.now})
-    Pathname.new("#{@@config_dir}/renamer_cache.txt").open("a")  {|file| file.puts "#{Time.now.to_s}|||||#{new_filename}"}
+    Config.file_path("renamer_cache.txt").open("a")  {|file| file.puts "#{Time.now.to_s}|||||#{new_filename}"}
     return filename
   end
 
@@ -123,7 +124,7 @@ def fix_name!(episode, filename)
     File.rename(filename, new_filename) unless filename == new_filename
     puts
     @@renamer_cache.merge!({new_filename => Time.now})
-    Pathname.new("#{@@config_dir}/renamer_cache.txt").open("a")  {|file| file.puts "#{Time.now.to_s}|||||#{new_filename}"}
+    Config.file_path("renamer_cache.txt").open("a")  {|file| file.puts "#{Time.now.to_s}|||||#{new_filename}"}
   end
 
   filename = new_filename
@@ -260,17 +261,8 @@ parser.set_options(
 @@config = {}
 @@series = Hash.new { |hash,key| hash[key] = {} }
 
-if !ENV["HOME"].nil?
-  @@config_dir = "#{ENV["HOME"]}/.ruby-tvscripts"
-elsif !ENV["APPDATA"].nil?
-  @@config_dir = "#{ENV["APPDATA"]}/.ruby-tvscripts"
-else
-  @@config_dir = ""
-end
-
-
-if File.exist?("#{@@config_dir}/tvrenamer.yml")
-  @@config = YAML.load_file( "#{@@config_dir}/tvrenamer.yml" )
+if File.exist?(Config.file("tvrenamer.yml"))
+  @@config = YAML.load_file(Config.file("tvrenamer.yml"))
 end
 
 loop do
@@ -318,7 +310,7 @@ end
 
 @@renamer_cache = {}
 
-cache_file = Pathname.new("#{@@config_dir}/renamer_cache.txt")
+cache_file = Config.file_path("renamer_cache.txt")
 
 puts "Loading cache" unless ENV['QUIET'] == "true"
 cache_file.readlines.each { |line|
@@ -353,9 +345,9 @@ Dir.glob("**/*.{avi,mpg,mpeg,mp4,m4v,divx,mkv}") do |filename|
   end
 end
 
-Pathname.new("#{@@config_dir}/renamer_cache.txt").delete if Pathname.new("#{@@config_dir}/renamer_cache.txt").file?
+Config.file_path("renamer_cache.txt").delete if File.file?(Config.file("renamer_cache.txt"))
 @@renamer_cache.each do |filename,time|
-  Pathname.new("#{@@config_dir}/renamer_cache.txt").open("a")  {|file| file.puts "#{time}|||||#{filename.to_s}"}
+  Config.file_path("renamer_cache.txt").open("a")  {|file| file.puts "#{time}|||||#{filename.to_s}"}
 end
 puts "Done!" unless ENV['QUIET'] == "true"
 

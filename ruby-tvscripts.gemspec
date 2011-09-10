@@ -11,7 +11,8 @@ Gem::Specification.new do |spec|
   spec.files = ["lib/ruby-tvscripts/net-http-compression.rb",
                 "lib/ruby-tvscripts/remote_request.rb",
                 "lib/ruby-tvscripts/serie.rb",
-                "lib/ruby-tvscripts/episode.rb"]
+                "lib/ruby-tvscripts/episode.rb",
+                "lib/ruby-tvscripts/config.rb"]
   spec.executables = ["delete-watched", "download-status", "trakt-library-import", "tvmover", "tvrenamer" ]
   
 end

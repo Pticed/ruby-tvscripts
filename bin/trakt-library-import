@@ -7,6 +7,8 @@
 # READ THE README #
 ###################
 
+require 'rubygems'
+
 require 'yaml'
 require 'rubygems'
 require 'getoptlong'
@@ -20,6 +22,8 @@ require 'net/http'
 require 'uri'
 require 'json'
 
+require 'ruby-tvscripts/config'
+
 
 def usage()
   puts
@@ -31,10 +35,10 @@ def usage()
 end
 
 def save_cache
-  FileUtils.mkdir(@@config_dir) unless Pathname.new("#{@@config_dir}").directory?
+  FileUtils.mkdir(Config.dir) unless File.directory?(Config.dir)
   
-  Pathname.new("#{@@config_dir}/trakt_cache.yml").delete if Pathname.new("#{@@config_dir}/trakt_cache.yml").file?
-  Pathname.new("#{@@config_dir}/trakt_cache.yml").open("w")  {|file| file.puts @@trakt_cache.to_yaml}
+  Config.file_path("trakt_cache.yml").delete if File.file?(Config.file("trakt_cache.yml"))
+  Config.file_path("trakt_cache.yml").open("w")  {|file| file.puts @@trakt_cache.to_yaml}
 end
 
 parser = GetoptLong.new
@@ -55,21 +59,13 @@ end
 
 puts "Starting at #{Time.now}"
 
-if !ENV["HOME"].nil?
-  @@config_dir = "#{ENV["HOME"]}/.ruby-tvscripts"
-elsif !ENV["APPDATA"].nil?
-  @@config_dir = "#{ENV["APPDATA"]}/.ruby-tvscripts"
+if File.exist?(Config.file("trakt-import.yml"))
+  SETTINGS = YAML.load_file(Config.file("trakt-import.yml"))
 else
-  @@config_dir = ""
+  puts "Please create a #{Config.file('trakt-import.yml')} file with your DB info, api key, username and password hash.  Please see example file."
 end
 
-if File.exist?("#{@@config_dir}/trakt-import.yml")
-  SETTINGS = YAML.load_file( "#{@@config_dir}/trakt-import.yml" )
-else
-  puts "Please create a #{@@config_dir}/trakt-import.yml file with your DB info, api key, username and password hash.  Please see example file."
-end
-
-puts "Was not able to get DB file, please check #{@@config_dir}/trakt-import.yml file.  Please see example file." if SETTINGS.nil? or SETTINGS.empty?
+puts "Was not able to get DB file, please check #{Config.file('trakt-import.yml')} file.  Please see example file." if SETTINGS.nil? or SETTINGS.empty?
 puts "DB settings need to include an engine type" if SETTINGS['database']['engine'].nil?
 
 database = SETTINGS['database']
@@ -84,8 +80,8 @@ end
 @episodes[:library] = {}
 @episodes[:seen] = {}
 
-if File.exist?("#{@@config_dir}/trakt_cache.yml")
-  @@trakt_cache = YAML.load_file( "#{@@config_dir}/trakt_cache.yml" )
+if File.exist?(Config.file("trakt_cache.yml"))
+  @@trakt_cache = YAML.load_file(Config.file("trakt_cache.yml"))
 else
   @@trakt_cache = {}
 end

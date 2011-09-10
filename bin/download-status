@@ -7,6 +7,8 @@
 # READ THE README #
 ###################
 
+require 'rubygems'
+
 require 'yaml'
 require 'rubygems'
 require 'getoptlong'
@@ -16,6 +18,8 @@ require 'fileutils'
 require 'pp'
 require 'time'
 require 'prowl'
+
+require 'ruby-tvscripts/config'
 
 def usage()
   puts
@@ -44,21 +48,13 @@ end
 
 puts "Starting at #{Time.now}"
 
-if !ENV["HOME"].nil?
-  @@config_dir = "#{ENV["HOME"]}/.ruby-tvscripts"
-elsif !ENV["APPDATA"].nil?
-  @@config_dir = "#{ENV["APPDATA"]}/.ruby-tvscripts"
+if File.exist?(Config.file("download-status.yml"))
+  PROWL_API = YAML.load_file(Config.file("download-status.yml"))['prowl_api']
 else
-  @@config_dir = ""
+  puts "Please create a #{Config.file('download-status.yml')} file with your api key.  Please see example file."
 end
 
-if File.exist?("#{@@config_dir}/download-status.yml")
-  PROWL_API = YAML.load_file( "#{@@config_dir}/download-status.yml" )['prowl_api']
-else
-  puts "Please create a #{@@config_dir}/download-status.yml file with your api key.  Please see example file."
-end
-
-puts "Was not able to set API Key, please check #{@@config_dir}/download-status.yml file.  Please see example file." if PROWL_API.nil? or PROWL_API.empty?
+puts "Was not able to set API Key, please check #{Config.file('download-status.yml')} file.  Please see example file." if PROWL_API.nil? or PROWL_API.empty?
 
 path = ARGV.shift
 
@@ -73,7 +69,7 @@ if not path.directory?
   exit
 end
 
-cache_file = Pathname.new("#{@@config_dir}/download_cache.txt")
+cache_file = Config.file_path("download_cache.txt")
 
 @@download_cache = {}
 
@@ -112,11 +108,11 @@ else
   puts "Found no files"
 end
 
-FileUtils.mkdir(@@config_dir) unless Pathname.new("#{@@config_dir}").directory?
+FileUtils.mkdir(Config.dir) unless File.directory?(Config.dir)
 
-Pathname.new("#{@@config_dir}/download_cache.txt").delete if Pathname.new("#{@@config_dir}/download_cache.txt").file?
+Config.file_path("download_cache.txt").delete if File.file?(Config.file("download_cache.txt"))
 @@download_cache.each do |filename,time|
-  Pathname.new("#{@@config_dir}/download_cache.txt").open("a")  {|file| file.puts "#{time}|||||#{filename.to_s}"}
+  Config.file_path("download_cache.txt").open("a")  {|file| file.puts "#{time}|||||#{filename.to_s}"}
 end
 
 puts "Finished at #{Time.now}"
