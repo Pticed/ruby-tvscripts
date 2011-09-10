@@ -1,16 +1,21 @@
-class RemoteRequest
-  def initialize(method)
-    method = 'get' if method.nil?
-    @opener = self.class.const_get(method.capitalize)
-  end
+module RubyTVScripts
 
-  def read(uri)
-    data = @opener.read(uri)
-    data
-  end
+  class RemoteRequest
 
-  private
+    def initialize(method)
+      method = 'get' if method.nil?
+      @opener = self.class.const_get(method.capitalize)
+    end
+    
+    def read(uri)
+      data = @opener.read(uri)
+      data
+    end
+    
+    private
+
     class Get
+    
       def self.read(uri)
         attempt_number=0
         errors=""
@@ -19,7 +24,7 @@ class RemoteRequest
           if (attempt_number > 10) then
             return nil
           end
-
+          
           file = Net::HTTP.get_response uri
           if (file.message != "OK") then
             raise InvalidResponseFromFeed, file.message
@@ -52,11 +57,14 @@ class RemoteRequest
           return file.plain_body
         end
       end
+      
     end
-end
-
-class InvalidResponseFromFeed < RuntimeError
-  def initialize(info)
-  @info = info
+    
+  end
+    
+  class InvalidResponseFromFeed < RuntimeError
+    def initialize(info)
+      @info = info
+    end
   end
 end

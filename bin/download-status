@@ -48,13 +48,13 @@ end
 
 puts "Starting at #{Time.now}"
 
-if File.exist?(Config.file("download-status.yml"))
-  PROWL_API = YAML.load_file(Config.file("download-status.yml"))['prowl_api']
+if File.exist?(RubyTVScripts::Config.file("download-status.yml"))
+  PROWL_API = YAML.load_file(RubyTVScripts::Config.file("download-status.yml"))['prowl_api']
 else
-  puts "Please create a #{Config.file('download-status.yml')} file with your api key.  Please see example file."
+  puts "Please create a #{RubyTVScripts::Config.file('download-status.yml')} file with your api key.  Please see example file."
 end
 
-puts "Was not able to set API Key, please check #{Config.file('download-status.yml')} file.  Please see example file." if PROWL_API.nil? or PROWL_API.empty?
+puts "Was not able to set API Key, please check #{RubyTVScripts::Config.file('download-status.yml')} file.  Please see example file." if PROWL_API.nil? or PROWL_API.empty?
 
 path = ARGV.shift
 
@@ -69,7 +69,7 @@ if not path.directory?
   exit
 end
 
-cache_file = Config.file_path("download_cache.txt")
+cache_file = RubyTVScripts::Config.file_path("download_cache.txt")
 
 @@download_cache = {}
 
@@ -108,11 +108,11 @@ else
   puts "Found no files"
 end
 
-FileUtils.mkdir(Config.dir) unless File.directory?(Config.dir)
+FileUtils.mkdir(RubyTVScripts::Config.dir) unless File.directory?(RubyTVScripts::Config.dir)
 
-Config.file_path("download_cache.txt").delete if File.file?(Config.file("download_cache.txt"))
+RubyTVScripts::Config.file_path("download_cache.txt").delete if File.file?(RubyTVScripts::Config.file("download_cache.txt"))
 @@download_cache.each do |filename,time|
-  Config.file_path("download_cache.txt").open("a")  {|file| file.puts "#{time}|||||#{filename.to_s}"}
+  RubyTVScripts::Config.file_path("download_cache.txt").open("a")  {|file| file.puts "#{time}|||||#{filename.to_s}"}
 end
 
 puts "Finished at #{Time.now}"

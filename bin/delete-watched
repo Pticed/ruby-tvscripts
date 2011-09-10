@@ -43,13 +43,13 @@ loop do
   end
 end
 
-if File.exist?(Config.file("delete-watched.yml"))
-  SETTINGS = YAML.load_file(Config.file("delete-watched.yml"))
+if File.exist?(RubyTVScripts::Config.file("delete-watched.yml"))
+  SETTINGS = YAML.load_file(RubyTVScripts::Config.file("delete-watched.yml"))
 else
-  puts "Please create a #{Config.file('delete-watched.yml')} file with your api key.  Please see example file."
+  puts "Please create a #{RubyTVScripts::Config.file('delete-watched.yml')} file with your api key.  Please see example file."
 end
 
-puts "Was not able to get DB file, please check #{Config.file('delete-watched.yml')} file.  Please see example file." if SETTINGS.nil? or SETTINGS.empty?
+puts "Was not able to get DB file, please check #{RubyTVScripts::Config.file('delete-watched.yml')} file.  Please see example file." if SETTINGS.nil? or SETTINGS.empty?
 puts "DB settings need to include an engine type" if SETTINGS['databases'][0]['engine'].nil?
 
 DB = []

@@ -71,7 +71,7 @@ class Series
 
     puts "Getting: #{uri}"
 
-    res = RemoteRequest.new("get").read(uri)
+    res = RubyTVScripts::RemoteRequest.new("get").read(uri)
 
     doc = Document.new res
 
