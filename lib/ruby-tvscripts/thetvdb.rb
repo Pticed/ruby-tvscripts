@@ -15,15 +15,14 @@ module RubyTVScripts
       do_name_overrides
       name = name.sub(/\(/, "").sub(/\)/, "")
       
-      series_xml = @cache.load ["thetvdb", "series_data", language, name]
-      if series_xml.nil?
+      series_xmldoc = @cache.load_xml ["thetvdb", "series_data", language, name]
+      if series_xmldoc.nil?
         puts "Fetching #{name} [#{language}] serie from thetvdb"
-        series_xml = fetch_serie_xml name, language
-        @cache.save ["thetvdb", "series_data", language, name], series_xml
+        series_xmldoc = fetch_serie_xml name, language
+        @cache.save ["thetvdb", "series_data", language, name], series_xmldoc.to_s
       end
-      return nil if series_xml.nil? or series_xml.empty?
+      return nil if series_xmldoc.nil?
       
-      series_xmldoc = Nokogiri::XML(series_xml)
       id = (series_xmldoc/"Series/id").text
       name = (series_xmldoc/"Series/SeriesName").text
       serie = Series.new id, name, language, self
@@ -31,13 +30,12 @@ module RubyTVScripts
     end
     
     def get_episodes serie_id, language
-      episodes_xml = @cache.load ["thetvdb", "episode_data", language, serie_id]
-      if episodes_xml.nil?
+      episodes_xmldoc = @cache.load_xml ["thetvdb", "episode_data", language, serie_id]
+      if episodes_xmldoc.nil?
         puts "Fetching #{serie_id} [#{language}] episodes from thetvdb"
-        episodes_xml = fetch_episodes_xml serie_id, language
-        @cache.save ["thetvdb", "episode_data", language, serie_id], episodes_xml
+        episodes_xmldoc = fetch_episodes_xml serie_id, language
+        @cache.save ["thetvdb", "episode_data", language, serie_id], episodes_xmldoc.to_s
       end
-      episodes_xmldoc = Nokogiri::XML(episodes_xml) unless episodes_xml.nil?
       
       episodes = Hash.new { |hash,key| hash[key] = {} }
       episodes_xmldoc.xpath("Data/Episode").each do |episode|
@@ -58,7 +56,6 @@ module RubyTVScripts
       res = RemoteRequest.new("get").read(uri)
       doc = Nokogiri::XML(res)
       
-      series_xml = nil
       series_element = nil
       
       doc.xpath("Data/Series").each do |element|
@@ -69,7 +66,7 @@ module RubyTVScripts
         end
       end
             
-      series_xml = series_element.to_s
+      series_element
     end
     
     def fetch_episodes_xml serie_id, language
@@ -83,7 +80,7 @@ module RubyTVScripts
       
       doc = Nokogiri::XML(res)
       doc.xpath("Data").each do |element|
-        return element.to_s
+        return element
       end
     end
 
