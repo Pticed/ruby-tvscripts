@@ -161,7 +161,7 @@ def drop_extension(filename)
   Pathname.new(filename.to_s[0, filename.to_s.length - filename.extname.length])
 end
 
-def get_details(file, refresh)
+def get_details(file, refresh, fetcher)
 
   # figure out what the show is based on path and filename
   season = nil
@@ -219,7 +219,7 @@ def get_details(file, refresh)
   return nil if episode_number.to_i > 99
 
   if @@series[show_name][language].nil?
-    @@series[show_name][language] = RubyTVScripts::Series.new(show_name, refresh, language)
+    @@series[show_name][language] = fetcher.find_serie show_name, language, :ignore_cache => refresh
   end
   series = @@series[show_name][language]
   return nil if series.episodes.size < 1
@@ -316,12 +316,17 @@ cache_file.readlines.each { |line|
 } if cache_file.file?
 puts "Loaded cache" unless ENV['QUIET'] == "true"
 
+#require 'ruby-tvscripts/thetvdb'
+#fetcher = RubyTVScripts::TheTVDB.new 'F63030FC56E9E594'
+require 'ruby-tvscripts/betaseries'
+fetcher = RubyTVScripts::BetaSeries.new @@config['betaseries_key']
+
 puts "Starting to scan files" unless ENV['QUIET'] == "true"
 Dir.glob("**/*.{avi,mpg,mpeg,mp4,m4v,divx,mkv}") do |filename|
   filename = filename.to_s
   if nocache or @@renamer_cache[filename].nil? or @@renamer_cache[filename] < (Time.now - @@time_to_live)
     @@renamer_cache.delete(filename)
-    episode = get_details(Pathname.new(filename), refresh)
+    episode = get_details(Pathname.new(filename), refresh, fetcher)
     if episode
       begin
         if fix_names!(episode) == "restart"
