@@ -21,8 +21,6 @@ require 'time'
 require 'ruby-tvscripts/serie'
 require 'ruby-tvscripts/config'
 
-API_KEY = 'F63030FC56E9E594'
-
 # How long to cache files.  Set to 16 days so that it doesn't redownload
 # if a series skips a week, and 2 extra days incase of a slow release.
 # It will automatically redownload if its a brand new file (new episodes).
