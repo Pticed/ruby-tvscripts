@@ -1,6 +1,6 @@
 Gem::Specification.new do |spec|
   spec.name = 'ruby-tvscripts'
-  spec.version ='0.0.2'
+  spec.version ='0.0.3'
 
   spec.authors = [ 'Brian Stolz', 'Cédric Finance' ]
   spec.email = [ 'brian@tecnobrat.com', 'pticedric@gmail.com']
