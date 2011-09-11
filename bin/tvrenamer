@@ -18,7 +18,6 @@ require 'fileutils'
 require 'pp'
 require 'time'
 
-require 'ruby-tvscripts/remote_request'
 require 'ruby-tvscripts/serie'
 require 'ruby-tvscripts/config'
 
