@@ -20,7 +20,7 @@ module RubyTVScripts
       doc = @cache.load_xml ["betaseries", "series_data", name] unless options[:ignore_cache]
       if doc.nil?
         puts "Fetching #{name} [#{language}] serie from BetaSeries"
-        docc = fetch_serie_xml name
+        doc = fetch_serie_xml name
         @cache.save ["betaseries", "series_data", name], doc.to_s
       end
       return nil if doc.nil?
@@ -76,6 +76,7 @@ module RubyTVScripts
           break
         end
       end
+      return nil if serie_url.nil?
 
       uri = URI.parse("http://api.betaseries.com/shows/display/#{serie_url}.xml?key=#{@api_key}")
       res = RemoteRequest.new("get").read(uri)
