@@ -12,7 +12,9 @@ Gem::Specification.new do |spec|
                 "lib/ruby-tvscripts/remote_request.rb",
                 "lib/ruby-tvscripts/serie.rb",
                 "lib/ruby-tvscripts/episode.rb",
-                "lib/ruby-tvscripts/config.rb"]
+                "lib/ruby-tvscripts/config.rb",
+                "lib/ruby-tvscripts/cache.rb"
+               ]
   spec.executables = ["delete-watched", "download-status", "trakt-library-import", "tvmover", "tvrenamer" ]
   
 end

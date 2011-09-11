@@ -14,6 +14,10 @@ module RubyTVScripts
       end
     end
 
+    def self.xml_cache_dir
+      File.join(dir, "xml_cache")
+    end
+
     def self.file filename
       File.join(dir, filename)
     end
