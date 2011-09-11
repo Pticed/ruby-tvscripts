@@ -15,7 +15,8 @@ module RubyTVScripts
       do_name_overrides
       name = name.sub(/\(/, "").sub(/\)/, "")
       
-      series_xmldoc = @cache.load_xml ["thetvdb", "series_data", language, name]
+      series_xmldoc = nil
+      series_xmldoc = @cache.load_xml ["thetvdb", "series_data", language, name] unless options[:ignore_cache]
       if series_xmldoc.nil?
         puts "Fetching #{name} [#{language}] serie from thetvdb"
         series_xmldoc = fetch_serie_xml name, language

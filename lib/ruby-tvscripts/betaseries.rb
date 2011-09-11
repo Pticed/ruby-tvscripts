@@ -16,7 +16,8 @@ module RubyTVScripts
     def find_serie name, language, options = {}
       name = name.sub(/\(/, "").sub(/\)/, "")
       
-      doc = @cache.load_xml ["betaseries", "series_data", name]
+      doc = nil
+      doc = @cache.load_xml ["betaseries", "series_data", name] unless options[:ignore_cache]
       if doc.nil?
         puts "Fetching #{name} [#{language}] serie from BetaSeries"
         docc = fetch_serie_xml name
