@@ -3,7 +3,7 @@ require 'ruby-tvscripts/thetvdb'
 require 'ruby-tvscripts/config'
 require 'yaml'
 
-describe RubyTVScripts::TheTVDB, :disabled => true do
+describe RubyTVScripts::TheTVDB do
   use_vcr_cassette "thetvdb", :record => :new_episodes
 
   before(:all) do
@@ -18,7 +18,7 @@ describe RubyTVScripts::TheTVDB, :disabled => true do
   end
   
   it 'should return nil if the tv show does not exist' do
-    serie = @rage.find_serie 'Invalid', 'fr', :ignore_cache => true
+    serie = @rage.find_serie 'InvalidSerie', 'fr', :ignore_cache => true
     serie.should be_nil
   end
   

@@ -1,6 +1,7 @@
 require 'cgi'
 
 require 'ruby-tvscripts/remote_request'
+require 'ruby-tvscripts/serie'
 
 module RubyTVScripts
 
@@ -24,8 +25,8 @@ module RubyTVScripts
       end
       return nil if series_xmldoc.nil?
       
-      id = (series_xmldoc/"Series/id").text
-      name = (series_xmldoc/"Series/SeriesName").text
+      id = (series_xmldoc/"id").text
+      name = (series_xmldoc/"SeriesName").text
       serie = Series.new id, name, language, self
 
     end

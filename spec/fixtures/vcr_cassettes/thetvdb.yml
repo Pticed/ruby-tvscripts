@@ -1,0 +1,187 @@
+--- 
+- !ruby/struct:VCR::HTTPInteraction 
+  request: !ruby/struct:VCR::Request 
+    method: :get
+    uri: http://thetvdb.com:80/api/GetSeries.php?language=fr&seriesname=Eureka
+    body: 
+    headers: 
+  response: !ruby/struct:VCR::Response 
+    status: !ruby/struct:VCR::ResponseStatus 
+      code: 200
+      message: OK
+    headers: 
+      x-powered-by: 
+      - PHP/5.2.6-1+lenny10
+      expires: 
+      - Sun, 11 Sep 2011 22:41:06 GMT
+      connection: 
+      - keep-alive
+      content-type: 
+      - text/xml; charset=utf-8
+      server: 
+      - nginx
+      date: 
+      - Sun, 11 Sep 2011 22:26:06 GMT
+      content-length: 
+      - "5320"
+      cache-control: 
+      - max-age=900
+      vary: 
+      - Accept-Encoding
+      - User-Agent,Accept-Encoding
+    body: "<?xml version=\"1.0\" encoding=\"UTF-8\" ?>\n\
+      <Data>\n\
+      <Series>\n\
+      <seriesid>79334</seriesid>\n\
+      <language>fr</language>\n\
+      <SeriesName>Eureka</SeriesName>\n\
+      <banner>graphical/79334-g6.jpg</banner>\n\
+      <Overview>Depuis des ann\xC3\xA9es le gouvernement invite les g\xC3\xA9nies du monde entier \xC3\xA0 venir s'installer dans la petite ville d'Eureka, o\xC3\xB9 la vie s'\xC3\xA9coule doucement entre innovations brillantes et chaos. En accidentant sa voiture et en se retrouvant coinc\xC3\xA9 dans la ville, le marshall Jack Carter se voit embarqu\xC3\xA9 dans une histoire qui le d\xC3\xA9passe</Overview>\n\
+      <FirstAired>2006-07-18</FirstAired>\n\
+      <IMDB_ID>tt0796264</IMDB_ID>\n\
+      <zap2it_id>SH00840179</zap2it_id>\n\
+      <id>79334</id>\n\
+      </Series>\n\
+      <Series>\n\
+      <seriesid>79334</seriesid>\n\
+      <language>en</language>\n\
+      <SeriesName>Eureka</SeriesName>\n\
+      <banner>graphical/79334-g6.jpg</banner>\n\
+      <Overview>The sleepy Pacific Northwest town of Eureka is hiding a mysterious secret. The government has been relocating the world\xE2\x80\x99s geniuses and their families to this rustic town for years where innovation and chaos have lived hand in hand. U.S. Marshal Jack Carter (Colin Ferguson) stumbles upon this odd town after wrecking his car and becoming stranded there. When the denizens of the town unleash an unknown scientific creation, Carter jumps in to try to restore order and consequently learns of one of the country\xE2\x80\x99s best kept secrets.</Overview>\n\
+      <FirstAired>2006-07-18</FirstAired>\n\
+      <IMDB_ID>tt0796264</IMDB_ID>\n\
+      <zap2it_id>SH00840179</zap2it_id>\n\
+      <id>79334</id>\n\
+      </Series>\n\
+      <Series>\n\
+      <seriesid>79360</seriesid>\n\
+      <language>fr</language>\n\
+      <SeriesName>Eureka Seven</SeriesName>\n\
+      <banner>graphical/79360-g2.jpg</banner>\n\
+      <Overview>Lors du grand cataclysme (\"Summer Of Love\"), Adrock Thurston, \xC3\xA9minent chercheur, meurt en sauvant sa plan\xC3\xA8te.\r\n\
+      \r\n\
+      Renton Thurston, son fils, est alors \xC3\xA9lev\xC3\xA9 par son grand p\xC3\xA8re, m\xC3\xA9canicien, dans la banlieue de Belforest.\r\n\
+      \r\n\
+      Renton (14 ans), est f\xC3\xA9ru de \"lift\", sport qui consiste a surfer sur des vagues de TraPar.\r\n\
+      \r\n\
+      Souvenir du Summer Of Love, le TraPar (Transparence Light Particule), courant invisible, offre \xC3\xA0 Renton sa principale occupation : lifter de grandes vagues de TraPar et devenir comme son idole Holland, pro du lift.\r\n\
+      Malheureusement, Renton s'ennuie \xC3\xA0 Belforest o\xC3\xB9 il ne se passe rien, et o\xC3\xB9 il n'existe pas de vagues de TraPar suffisantes pour r\xC3\xA9aliser des figures impressionnantes.\r\n\
+      Il souffre \xC3\xA9galement de la notori\xC3\xA9t\xC3\xA9 de son p\xC3\xA8re.\r\n\
+      Ce qui va d\xC3\xA9livrer Renton de cette monotonie, c'est l'arriv\xC3\xA9e assez inattendue de \"Light Finding Operation (LFO)\" militaires en ville, et, le soir m\xC3\xAAme, d'un LFO en d\xC3\xA9tresse qui se pose en catastrophe...</Overview>\n\
+      <FirstAired>2005-04-17</FirstAired>\n\
+      <IMDB_ID>tt0765491</IMDB_ID>\n\
+      <id>79360</id>\n\
+      </Series>\n\
+      <Series>\n\
+      <seriesid>198821</seriesid>\n\
+      <language>en</language>\n\
+      <SeriesName>Eureka Stockade</SeriesName>\n\
+      <id>198821</id>\n\
+      </Series>\n\
+      <Series>\n\
+      <seriesid>79360</seriesid>\n\
+      <language>en</language>\n\
+      <SeriesName>Eureka Seven</SeriesName>\n\
+      <banner>graphical/79360-g2.jpg</banner>\n\
+      <Overview>Renton Thurston is your ordinary 14-year-old boy, who has grown bored of his current life in his hometown. He is the son of the acclaimed hero of the military, and every day, he has no greater dream than to look up to his idol, Holland, who is skilled in the hoverboard sport referred to as \xE2\x80\x9CREFfing\xE2\x80\x9D (\"Lifting,\" in the English dub). He also believes that he would one day join the LFO rebel group Gekkostate, and surf the skies.\r\n\
+      \r\n\
+      As he tries to master the art and skill of REFfing, Renton has nothing more than his dreams and his hopes, which his grandfather mechanic dismisses as something useless. But one day, Renton\xE2\x80\x99s life changes, when a REFfing LFO mecha crashes into his house, out of which emerges the most beautiful girl pilot he\xE2\x80\x99s ever seen. Now, Renton finds himself in the middle of a war in which he absolutely has no desire to be involved in, having the ride of his life with his newfound love, his number one idol, and his hero father.</Overview>\n\
+      <FirstAired>2005-04-17</FirstAired>\n\
+      <IMDB_ID>tt0765491</IMDB_ID>\n\
+      <id>79360</id>\n\
+      </Series>\n\
+      <Series>\n\
+      <seriesid>74031</seriesid>\n\
+      <language>en</language>\n\
+      <SeriesName>Eureka! (1981)</SeriesName>\n\
+      <banner>graphical/74031-g.jpg</banner>\n\
+      <Overview>Eureka! (or, for French audiences, Eur\xC3\x83\xC2\xAAka!), was a cleverly-designed set of cartoons intended to teach physics.  A total of 30 adventures surrounded a clever, long-nosed man in a white suit and distinctive hat.  The narrator, played by the late Billy Van, taught this man principles of physics, ranging from mechanics to heat and temperature. Among the awards Eureka! has received: \xC3\x83\xCB\x9C     Best Science &amp; Math Video, Birmingham International Educational Film Festival \xC3\x83\xCB\x9C     GOLD PLAQUE, American Film Festival \xC3\x83\xCB\x9C     NAEB Graphic &amp; Design Award TVO still provides videotapes of Eureka! for school audiences.  It is their tribute to the people who made it work: David Stansfield, Denise Boiteau, and the late Billy Van.</Overview>\n\
+      <FirstAired>1981-09-01</FirstAired>\n\
+      <id>74031</id>\n\
+      </Series>\n\
+      <Series>\n\
+      <seriesid>78031</seriesid>\n\
+      <language>en</language>\n\
+      <SeriesName>Eureka Street</SeriesName>\n\
+      <Overview>Welcome to the Eureka Street guide at TV Tome. There is no editor for this show. If you would like to be the editor look here for details.</Overview>\n\
+      <FirstAired>1999-01-01</FirstAired>\n\
+      <id>78031</id>\n\
+      </Series>\n\
+      </Data>"
+    http_version: "1.1"
+- !ruby/struct:VCR::HTTPInteraction 
+  request: !ruby/struct:VCR::Request 
+    method: :get
+    uri: http://thetvdb.com:80/api/GetSeries.php?language=fr&seriesname=Invalid
+    body: 
+    headers: 
+  response: !ruby/struct:VCR::Response 
+    status: !ruby/struct:VCR::ResponseStatus 
+      code: 200
+      message: OK
+    headers: 
+      x-powered-by: 
+      - PHP/5.2.6-1+lenny10
+      expires: 
+      - Sun, 11 Sep 2011 22:41:07 GMT
+      content-type: 
+      - text/xml; charset=utf-8
+      connection: 
+      - keep-alive
+      date: 
+      - Sun, 11 Sep 2011 22:26:07 GMT
+      server: 
+      - nginx
+      content-length: 
+      - "174"
+      vary: 
+      - Accept-Encoding
+      - User-Agent,Accept-Encoding
+      cache-control: 
+      - max-age=900
+    body: |-
+      <?xml version="1.0" encoding="UTF-8" ?>
+      <Data>
+      <Series>
+      <seriesid>229421</seriesid>
+      <language>en</language>
+      <SeriesName>Invalid</SeriesName>
+      <id>229421</id>
+      </Series>
+      </Data>
+    http_version: "1.1"
+- !ruby/struct:VCR::HTTPInteraction 
+  request: !ruby/struct:VCR::Request 
+    method: :get
+    uri: http://thetvdb.com:80/api/GetSeries.php?language=fr&seriesname=InvalidSerie
+    body: 
+    headers: 
+  response: !ruby/struct:VCR::Response 
+    status: !ruby/struct:VCR::ResponseStatus 
+      code: 200
+      message: OK
+    headers: 
+      x-powered-by: 
+      - PHP/5.2.6-1+lenny10
+      expires: 
+      - Sun, 11 Sep 2011 22:53:01 GMT
+      connection: 
+      - keep-alive
+      content-type: 
+      - text/xml; charset=utf-8
+      server: 
+      - nginx
+      date: 
+      - Sun, 11 Sep 2011 22:38:01 GMT
+      content-length: 
+      - "54"
+      cache-control: 
+      - max-age=900
+      vary: 
+      - Accept-Encoding
+      - User-Agent,Accept-Encoding
+    body: |-
+      <?xml version="1.0" encoding="UTF-8" ?>
+      <Data>
+      </Data>
+    http_version: "1.1"
