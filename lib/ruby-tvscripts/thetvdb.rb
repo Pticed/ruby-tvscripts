@@ -15,28 +15,27 @@ module RubyTVScripts
       do_name_overrides
       name = name.sub(/\(/, "").sub(/\)/, "")
       
-      series_xml = @cache.load ["series_data", language, name]
+      series_xml = @cache.load ["thetvdb", "series_data", language, name]
       if series_xml.nil?
         puts "Fetching #{name} [#{language}] serie from thetvdb"
         series_xml = fetch_serie_xml name, language
-        @cache.save ["series_data", language, name], series_xml
+        @cache.save ["thetvdb", "series_data", language, name], series_xml
       end
-      series_xmldoc = Nokogiri::XML(series_xml)
-
       return nil if series_xml.nil? or series_xml.empty?
-
-      id = (@series_xmldoc/"Series/id").text
-      name = (@series_xmldoc/"Series/SeriesName").text
+      
+      series_xmldoc = Nokogiri::XML(series_xml)
+      id = (series_xmldoc/"Series/id").text
+      name = (series_xmldoc/"Series/SeriesName").text
       serie = Series.new id, name, language, self
 
     end
     
     def get_episodes serie_id, language
-      episodes_xml = @cache.load ["episode_data", language, name]
+      episodes_xml = @cache.load ["thetvdb", "episode_data", language, serie_id]
       if episodes_xml.nil?
         puts "Fetching #{serie_id} [#{language}] episodes from thetvdb"
         episodes_xml = fetch_episodes_xml serie_id, language
-        @cache.save ["episode_data", language, name], episodes_xml
+        @cache.save ["thetvdb", "episode_data", language, serie_id], episodes_xml
       end
       episodes_xmldoc = Nokogiri::XML(episodes_xml) unless episodes_xml.nil?
       
@@ -56,9 +55,7 @@ module RubyTVScripts
 
     def fetch_serie_xml name, language
       uri = URI.parse("http://thetvdb.com/api/GetSeries.php?seriesname=#{CGI::escape(name)}&language=#{language}")
-      
       res = RemoteRequest.new("get").read(uri)
-      
       doc = Nokogiri::XML(res)
       
       series_xml = nil

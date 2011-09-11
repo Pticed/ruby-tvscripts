@@ -10,33 +10,24 @@ module RubyTVScripts
     
     def initialize api_key
       @api_key = api_key
+      @cache = Cache.new Config.xml_cache_dir
     end
     
     def find_serie name, language, options = {}
       name = name.sub(/\(/, "").sub(/\)/, "")
       
-      puts "Fetching #{name} [#{language}] serie from thetvdb"
-
-      uri = URI.parse("http://api.betaseries.com/shows/search.xml?title=#{CGI::escape(name)}&key=#{@api_key}")
-      res = RemoteRequest.new("get").read(uri)
-      doc = Nokogiri::XML(res)
-      
-      series_xml = nil
-      serie_url = nil
-
-      doc.xpath("root/shows/show").each do |element|
-        if strip_dots((element/"title").text.downcase) == strip_dots(name.downcase)
-          serie_url = (element/"url").text
-          break
-        end
+      serie_xml = @cache.load ["betaseries", "series_data", name]
+      if serie_xml.nil?
+        puts "Fetching #{name} [#{language}] serie from BetaSeries"
+        serie_xml = fetch_serie_xml name
+        @cache.save ["betaseries", "series_data", name], serie_xml
       end
+      return nil if serie_xml.nil? or serie_xml.empty?
       
-      uri = URI.parse("http://api.betaseries.com/shows/display/#{serie_url}.xml?key=#{@api_key}")      
-      res = RemoteRequest.new("get").read(uri)
-      doc = Nokogiri::XML(res)
+      doc = Nokogiri::XML(serie_xml)
       
       show = doc/'root/show'
-      id = serie_url
+      id = (show/'url').text
       title = (show/'title').text
       #description = (show/'description').text
       language = 'fr'
@@ -46,11 +37,14 @@ module RubyTVScripts
     end
     
     def get_episodes serie_id, language
-      puts "Fetching #{serie_id} [#{language}] episodes from thetvdb"
-      
-      uri = URI.parse("http://api.betaseries.com/shows/episodes/#{serie_id}.xml?key=#{@api_key}")
-      res = RemoteRequest.new("get").read(uri)
-      doc = Nokogiri::XML(res)
+      episodes_xml = @cache.load ["betaseries", "episode_data", serie_id]
+      if episodes_xml.nil?
+        puts "Fetching #{serie_id} [#{language}] episodes from BetaSeries"
+        uri = URI.parse("http://api.betaseries.com/shows/episodes/#{serie_id}.xml?key=#{@api_key}")
+        episodes_xml = RemoteRequest.new("get").read(uri)
+        @cache.save ["betaseries", "episode_data", serie_id], episodes_xml
+      end
+      doc = Nokogiri::XML(episodes_xml)
       
       episodes = Hash.new { |hash,key| hash[key] = {} }
       (doc/'root/seasons/season').each do |season|
@@ -70,6 +64,25 @@ module RubyTVScripts
       s.gsub(".","")
     end
 
+    def fetch_serie_xml name
+      uri = URI.parse("http://api.betaseries.com/shows/search.xml?title=#{CGI::escape(name)}&key=#{@api_key}")
+      res = RemoteRequest.new("get").read(uri)
+      doc = Nokogiri::XML(res)
+
+      series_xml = nil
+      serie_url = nil
+
+      doc.xpath("root/shows/show").each do |element|
+        if strip_dots((element/"title").text.downcase) == strip_dots(name.downcase)
+          serie_url = (element/"url").text
+          break
+        end
+      end
+
+      uri = URI.parse("http://api.betaseries.com/shows/display/#{serie_url}.xml?key=#{@api_key}")
+      res = RemoteRequest.new("get").read(uri)
+
+    end
   end
 
 end
