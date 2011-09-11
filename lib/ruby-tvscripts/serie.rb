@@ -14,9 +14,8 @@ module RubyTVScripts
       do_name_overrides
       @language = language
       cache = Cache.new Config.xml_cache_dir
+
       series_xml = cache.load ["series_data", @language, @name]
-      episodes_xml = cache.load ["episode_data", @language, @name]
-      @episodes = Hash.new { |hash,key| hash[key] = {} }
       if series_xml.nil?
         puts "Fetching #{@name} [#{@language}] serie from thetvdb"
         series_xml = get_series_xml()
@@ -28,6 +27,7 @@ module RubyTVScripts
       
       @name = (@series_xmldoc/"Series/SeriesName").text
       
+      episodes_xml = cache.load ["episode_data", @language, @name]
       if episodes_xml.nil?
         puts "Fetching #{@name} [#{@language}] episodes from thetvdb"
         episodes_xml = get_episodes_xml(id)
@@ -35,6 +35,7 @@ module RubyTVScripts
       end
       @episodes_xmldoc = Nokogiri::XML(episodes_xml) unless episodes_xml.nil?
       
+      @episodes = Hash.new { |hash,key| hash[key] = {} }
       @episodes_xmldoc.xpath("Data/Episode").each do |episode|
         @episodes[(episode/"SeasonNumber").text][(episode/"EpisodeNumber").text] = (episode/"EpisodeName").text
       end unless @episodes_xmldoc.nil?
@@ -54,6 +55,7 @@ module RubyTVScripts
     def strip_dots(s)
       s.gsub(".","")
     end
+
     def get_episodes_xml(series_id)
       uri = URI.parse("http://thetvdb.com/api/#{API_KEY}/series/#{series_id}/all/#{@language}.xml")
       res = RemoteRequest.new("get").read(uri)
