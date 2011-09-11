@@ -1,3 +1,5 @@
+require 'fileutils'
+
 module RubyTVScripts
   
   class Cache
@@ -17,6 +19,11 @@ module RubyTVScripts
 	    path.read
     end
     
+    def load_xml key
+      data = load(key)
+      Nokogiri::XML(data) unless data.nil? or data.empty?
+    end
+
     def save key, content
       path = cache_path(key)
       unless path.dirname.directory?
