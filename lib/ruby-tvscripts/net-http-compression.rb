@@ -25,6 +25,7 @@
 
 require 'zlib'
 require 'stringio'
+require 'net/http'
 
 class Net::HTTPResponse
   # Return the uncompressed content

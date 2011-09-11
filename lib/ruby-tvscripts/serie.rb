@@ -15,10 +15,12 @@ module RubyTVScripts
       @language = language
       cache = Cache.new Config.xml_cache_dir
 
+      fetcher = TheTVDB.new 'F63030FC56E9E594'
+
       series_xml = cache.load ["series_data", @language, @name]
       if series_xml.nil?
         puts "Fetching #{@name} [#{@language}] serie from thetvdb"
-        series_xml = get_series_xml()
+        series_xml = fetcher.find_serie @name, @language
         cache.save ["series_data", @language, @name], series_xml
       end
       @series_xmldoc = Nokogiri::XML(series_xml)
@@ -30,7 +32,7 @@ module RubyTVScripts
       episodes_xml = cache.load ["episode_data", @language, @name]
       if episodes_xml.nil?
         puts "Fetching #{@name} [#{@language}] episodes from thetvdb"
-        episodes_xml = get_episodes_xml(id)
+        episodes_xml = fetcher.get_episodes id, @language
         cache.save ["episode_data", @language, @name], episodes_xml
       end
       @episodes_xmldoc = Nokogiri::XML(episodes_xml) unless episodes_xml.nil?
@@ -56,43 +58,6 @@ module RubyTVScripts
       s.gsub(".","")
     end
 
-    def get_episodes_xml(series_id)
-      uri = URI.parse("http://thetvdb.com/api/#{API_KEY}/series/#{series_id}/all/#{@language}.xml")
-      res = RemoteRequest.new("get").read(uri)
-      
-      if res.nil?
-        puts "Could not download XML Data for series ID #{series_id} -- #{url}"
-        return nil
-      end
-      
-      doc = Nokogiri::XML(res)
-      doc.xpath("Data").each do |element|
-        return element.to_s
-      end
-    end
-    
-    def get_series_xml
-      name = @name.sub(/\(/, "").sub(/\)/, "")
-      uri = URI.parse("http://thetvdb.com/api/GetSeries.php?seriesname=#{CGI::escape(name)}&language=#{@language}")
-      
-      res = RemoteRequest.new("get").read(uri)
-      
-      doc = Nokogiri::XML(res)
-      
-      series_xml = nil
-      series_element = nil
-      
-      doc.xpath("Data/Series").each do |element|
-        series_element ||= element
-        if strip_dots((element/"SeriesName").text.downcase) == strip_dots(@name.downcase)
-          series_element = element
-          break
-        end
-      end
-      series_xml = series_element.to_s
-      series_xml
-    end
-    
     def get_episode(filename, season, episode_number, refresh)
       Episode.new(self, filename, season, episode_number, refresh)
     end

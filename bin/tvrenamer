@@ -12,15 +12,12 @@ require 'rubygems'
 
 require 'yaml'
 require 'getoptlong'
-require 'net/http'
-require "cgi"
 require 'pathname'
 require 'find'
 require 'fileutils'
 require 'pp'
 require 'time'
 
-require 'ruby-tvscripts/net-http-compression'
 require 'ruby-tvscripts/remote_request'
 require 'ruby-tvscripts/serie'
 require 'ruby-tvscripts/config'

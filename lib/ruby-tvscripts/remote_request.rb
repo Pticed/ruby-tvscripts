@@ -1,3 +1,5 @@
+require 'ruby-tvscripts/net-http-compression'
+
 module RubyTVScripts
 
   class RemoteRequest
