@@ -1,0 +1,163 @@
+--- 
+- !ruby/struct:VCR::HTTPInteraction 
+  request: !ruby/struct:VCR::Request 
+    method: :get
+    uri: http://api.betaseries.com:80/shows/search.xml?key=19e44fead2cf&title=Eureka
+    body: 
+    headers: 
+  response: !ruby/struct:VCR::Response 
+    status: !ruby/struct:VCR::ResponseStatus 
+      code: 200
+      message: OK
+    headers: 
+      expires: 
+      - Thu, 19 Nov 1981 08:52:00 GMT
+      content-type: 
+      - text/xml; charset=utf-8;
+      date: 
+      - Sun, 11 Sep 2011 17:35:51 GMT
+      server: 
+      - Apache
+      content-length: 
+      - "265"
+      set-cookie: 
+      - PHPSESSID=0677c9e96eedd73a907bd0d4d6695f9a; path=/
+      vary: 
+      - Accept-Encoding
+      cache-control: 
+      - no-store, no-cache, must-revalidate, post-check=0, pre-check=0
+      pragma: 
+      - no-cache
+    body: |
+      <?xml version="1.0" encoding="UTF-8"?>
+      <root>
+       <key>19e44fead2cf</key>
+       <shows>
+        <show>
+         <url>eureka</url>
+         <title>Eureka</title>
+        </show>
+        <show>
+         <url>eureka7jp</url>
+         <title>Eureka 7 (JP)</title>
+        </show>
+       </shows>
+       <code>1</code>
+       <errors/>
+      </root>
+
+    http_version: "1.1"
+- !ruby/struct:VCR::HTTPInteraction 
+  request: !ruby/struct:VCR::Request 
+    method: :get
+    uri: http://api.betaseries.com:80/shows/display/eureka.xml?key=19e44fead2cf
+    body: 
+    headers: 
+  response: !ruby/struct:VCR::Response 
+    status: !ruby/struct:VCR::ResponseStatus 
+      code: 200
+      message: OK
+    headers: 
+      expires: 
+      - Thu, 19 Nov 1981 08:52:00 GMT
+      content-type: 
+      - text/xml; charset=utf-8;
+      date: 
+      - Sun, 11 Sep 2011 17:35:51 GMT
+      server: 
+      - Apache
+      content-length: 
+      - "1176"
+      set-cookie: 
+      - PHPSESSID=611c2f763a2c10faf271d81e80682861; path=/
+      vary: 
+      - Accept-Encoding
+      cache-control: 
+      - no-store, no-cache, must-revalidate, post-check=0, pre-check=0
+      pragma: 
+      - no-cache
+    body: "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n\
+      <root>\n <key>19e44fead2cf</key>\n <show>\n  <title>Eureka</title>\n  <id_thetvdb>79334</id_thetvdb>\n  <url>eureka</url>\n  <description>Depuis des ann\xC3\xA9es le gouvernement invite les g\xC3\xA9nies du monde entier \xC3\xA0 venir s'installer dans la petite ville d'Eureka, o\xC3\xB9 la vie s'\xC3\xA9coule doucement entre innovations brillantes et chaos. En accidentant sa voiture et en se retrouvant coinc\xC3\xA9 dans la ville, le marshall Jack Carter se voit embarqu\xC3\xA9 dans une histoire qui le d\xC3\xA9passe</description>\n  <status>Continuing</status>\n  <banner>http://www.betaseries.com/images/fonds/eureka.jpg</banner>\n  <seasons>\n   <season>\n    <number>1</number>\n    <episodes>12</episodes>\n   </season>\n   <season>\n    <number>2</number>\n    <episodes>13</episodes>\n   </season>\n   <season>\n    <number>3</number>\n    <episodes>18</episodes>\n   </season>\n   <season>\n    <number>4</number>\n    <episodes>20</episodes>\n   </season>\n  </seasons>\n  <genres>\n   <genre>Comedy</genre>\n   <genre>Drama</genre>\n   <genre>Science-Fiction</genre>\n  </genres>\n  <note>\n   <members>94</members>\n   <mean>4,21</mean>\n   <self/>\n  </note>\n </show>\n <code>1</code>\n <errors/>\n\
+      </root>\n"
+    http_version: "1.1"
+- !ruby/struct:VCR::HTTPInteraction 
+  request: !ruby/struct:VCR::Request 
+    method: :get
+    uri: http://api.betaseries.com:80/shows/search.xml?key=19e44fead2cf&title=Invalid
+    body: 
+    headers: 
+  response: !ruby/struct:VCR::Response 
+    status: !ruby/struct:VCR::ResponseStatus 
+      code: 200
+      message: OK
+    headers: 
+      expires: 
+      - Thu, 19 Nov 1981 08:52:00 GMT
+      content-type: 
+      - text/xml; charset=utf-8;
+      server: 
+      - Apache
+      date: 
+      - Sun, 11 Sep 2011 17:35:51 GMT
+      content-length: 
+      - "116"
+      set-cookie: 
+      - PHPSESSID=d1d0e0889039e0b489c6e77e11b17544; path=/
+      cache-control: 
+      - no-store, no-cache, must-revalidate, post-check=0, pre-check=0
+      vary: 
+      - Accept-Encoding
+      pragma: 
+      - no-cache
+    body: |
+      <?xml version="1.0" encoding="UTF-8"?>
+      <root>
+       <key>19e44fead2cf</key>
+       <shows/>
+       <code>1</code>
+       <errors/>
+      </root>
+
+    http_version: "1.1"
+- !ruby/struct:VCR::HTTPInteraction 
+  request: !ruby/struct:VCR::Request 
+    method: :get
+    uri: http://api.betaseries.com:80/shows/display/.xml?key=19e44fead2cf
+    body: 
+    headers: 
+  response: !ruby/struct:VCR::Response 
+    status: !ruby/struct:VCR::ResponseStatus 
+      code: 200
+      message: OK
+    headers: 
+      expires: 
+      - Thu, 19 Nov 1981 08:52:00 GMT
+      content-type: 
+      - text/xml; charset=utf-8;
+      server: 
+      - Apache
+      date: 
+      - Sun, 11 Sep 2011 17:35:52 GMT
+      content-length: 
+      - "170"
+      set-cookie: 
+      - PHPSESSID=75ce6199ba0d8632fa6ae38b65610d06; path=/
+      cache-control: 
+      - no-store, no-cache, must-revalidate, post-check=0, pre-check=0
+      vary: 
+      - Accept-Encoding
+      pragma: 
+      - no-cache
+    body: |
+      <?xml version="1.0" encoding="UTF-8"?>
+      <root>
+       <code>0</code>
+       <errors>
+        <error>
+         <code>1003</code>
+         <content>Invalid action</content>
+        </error>
+       </errors>
+      </root>
+
+    http_version: "1.1"

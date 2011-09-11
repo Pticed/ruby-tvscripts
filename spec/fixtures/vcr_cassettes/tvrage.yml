@@ -1,0 +1,118 @@
+--- 
+- !ruby/struct:VCR::HTTPInteraction 
+  request: !ruby/struct:VCR::Request 
+    method: :get
+    uri: http://services.tvrage.com:80/feeds/search.php?show=Eureka
+    body: 
+    headers: 
+  response: !ruby/struct:VCR::Response 
+    status: !ruby/struct:VCR::ResponseStatus 
+      code: 200
+      message: OK
+    headers: 
+      x-powered-by: 
+      - PHP/5.3.2-1ubuntu4.9
+      content-type: 
+      - text/xml; charset=UTF-8
+      date: 
+      - Sun, 11 Sep 2011 17:25:22 GMT
+      server: 
+      - Apache/2.2.14 (Ubuntu)
+      content-length: 
+      - "1939"
+      vary: 
+      - Accept-Encoding
+    body: |-
+      <?xml version="1.0" encoding="UTF-8" ?>
+      
+      <Results>
+      <show>
+      <showid>7506</showid>
+      <name>Eureka</name>
+      <link>http://www.tvrage.com/Eureka</link>
+      <country>US</country>
+      <started>2006</started>
+      <ended>0</ended>
+      <seasons>4</seasons>
+      <status>Returning Series</status>
+      <classification>Scripted</classification>
+      <genres><genre>Action</genre><genre>Adventure</genre><genre>Drama</genre><genre>Family</genre><genre>Fantasy</genre><genre>Sci-Fi</genre></genres>
+      </show>
+      <show>
+      <showid>3459</showid>
+      <name>Eureka!</name>
+      <link>http://www.tvrage.com/shows/id-3459</link>
+      <country>CA</country>
+      <started>1981</started>
+      <ended>1983</ended>
+      <seasons>2</seasons>
+      <status>Canceled/Ended</status>
+      <classification>Animation</classification>
+      <genres><genre>Animation General</genre><genre>Children</genre></genres>
+      </show>
+      <show>
+      <showid>12376</showid>
+      <name>Eureka 7 (US)</name>
+      <link>http://www.tvrage.com/Eureka_7_US</link>
+      <country>AJ</country>
+      <started>2006</started>
+      <ended>2007</ended>
+      <seasons>3</seasons>
+      <status>Canceled/Ended</status>
+      <classification>Animation</classification>
+      <genres><genre>Anime</genre><genre>Action</genre><genre>Adventure</genre><genre>Drama</genre><genre>Sci-Fi</genre></genres>
+      </show>
+      <show>
+      <showid>8011</showid>
+      <name>Eureka 7 (JP)</name>
+      <link>http://www.tvrage.com/Eureka_7_JP</link>
+      <country>JP</country>
+      <started>2005</started>
+      <ended>2006</ended>
+      <seasons>3</seasons>
+      <status>Canceled/Ended</status>
+      <classification>Animation</classification>
+      <genres><genre>Anime</genre><genre>Action</genre><genre>Adventure</genre><genre>Drama</genre><genre>Sci-Fi</genre></genres>
+      </show>
+      <show>
+      <showid>13637</showid>
+      <name>Eureka Street</name>
+      <link>http://www.tvrage.com/shows/id-13637</link>
+      <country>UK</country>
+      <started>1999</started>
+      <ended>1999</ended>
+      <seasons>1</seasons>
+      <status>Canceled/Ended</status>
+      <classification>Scripted</classification>
+      <genres><genre>Comedy</genre><genre>Drama</genre></genres>
+      </show>
+      </Results>
+    http_version: "1.1"
+- !ruby/struct:VCR::HTTPInteraction 
+  request: !ruby/struct:VCR::Request 
+    method: :get
+    uri: http://services.tvrage.com:80/feeds/search.php?show=Invalid
+    body: 
+    headers: 
+  response: !ruby/struct:VCR::Response 
+    status: !ruby/struct:VCR::ResponseStatus 
+      code: 200
+      message: OK
+    headers: 
+      x-powered-by: 
+      - PHP/5.3.2-1ubuntu4.9
+      content-type: 
+      - text/xml; charset=UTF-8
+      server: 
+      - Apache/2.2.14 (Ubuntu)
+      date: 
+      - Sun, 11 Sep 2011 17:26:59 GMT
+      content-length: 
+      - "61"
+      vary: 
+      - Accept-Encoding
+    body: |-
+      <?xml version="1.0" encoding="UTF-8" ?>
+      
+      <Results>0</Results>
+    http_version: "1.1"
