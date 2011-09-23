@@ -1,4 +1,5 @@
 require 'rubygems'
+require 'rspec'
 
 require 'vcr'
 require 'fakeweb'
