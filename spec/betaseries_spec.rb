@@ -22,4 +22,9 @@ describe RubyTVScripts::BetaSeries do
     serie.should be_nil
   end
   
+  it 'should fetch the episodes too' do
+    serie = @rage.find_serie 'Eureka', 'fr', :ignore_cache => true
+    serie.episodes(:ignore_cache => true).should_not be_empty
+  end
+    
 end

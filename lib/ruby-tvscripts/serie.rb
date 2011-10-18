@@ -16,8 +16,8 @@ module RubyTVScripts
       @fetcher = fetcher      
     end
     
-    def episodes
-      @episodes = @fetcher.get_episodes @id, @language if @episodes.nil?
+    def episodes options = {}
+      @episodes = @fetcher.get_episodes @id, @language, options if @episodes.nil?
       @episodes
     end
         
