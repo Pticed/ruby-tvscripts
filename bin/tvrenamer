@@ -313,10 +313,10 @@ cache_file.readlines.each { |line|
 } if cache_file.file?
 puts "Loaded cache" unless ENV['QUIET'] == "true"
 
-#require 'ruby-tvscripts/thetvdb'
-#fetcher = RubyTVScripts::TheTVDB.new 'F63030FC56E9E594'
-require 'ruby-tvscripts/betaseries'
-fetcher = RubyTVScripts::BetaSeries.new @@config['betaseries_key']
+require 'ruby-tvscripts/thetvdb'
+fetcher = RubyTVScripts::TheTVDB.new 'F63030FC56E9E594'
+#require 'ruby-tvscripts/betaseries'
+#fetcher = RubyTVScripts::BetaSeries.new @@config['betaseries_key']
 
 puts "Starting to scan files" unless ENV['QUIET'] == "true"
 Dir.glob("**/*.{avi,mpg,mpeg,mp4,m4v,divx,mkv}") do |filename|
