@@ -35,12 +35,13 @@ module RubyTVScripts
       
     end
     
-    def get_episodes serie_id, language
-      doc = @cache.load_xml ["betaseries", "episode_data", serie_id]
+    def get_episodes serie_id, language, options = {}
+      doc = @cache.load_xml ["betaseries", "episode_data", serie_id] unless options[:ignore_cache]
       if doc.nil?
         puts "Fetching #{serie_id} [#{language}] episodes from BetaSeries"
         uri = URI.parse("http://api.betaseries.com/shows/episodes/#{serie_id}.xml?key=#{@api_key}")
-        doc = RemoteRequest.new("get").read(uri)
+        res = RemoteRequest.new("get").read(uri)
+        doc = Nokogiri::XML(res)
         @cache.save ["betaseries", "episode_data", serie_id], doc.to_s
       end
       

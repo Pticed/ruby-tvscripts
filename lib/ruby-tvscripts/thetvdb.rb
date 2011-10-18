@@ -31,8 +31,8 @@ module RubyTVScripts
 
     end
     
-    def get_episodes serie_id, language
-      episodes_xmldoc = @cache.load_xml ["thetvdb", "episode_data", language, serie_id]
+    def get_episodes serie_id, language, options = {}
+      episodes_xmldoc = @cache.load_xml ["thetvdb", "episode_data", language, serie_id] unless options[:ignore_cache]
       if episodes_xmldoc.nil?
         puts "Fetching #{serie_id} [#{language}] episodes from thetvdb"
         episodes_xmldoc = fetch_episodes_xml serie_id, language
@@ -72,7 +72,7 @@ module RubyTVScripts
     end
     
     def fetch_episodes_xml serie_id, language
-      uri = URI.parse("http://thetvdb.com/api/#{api_key}/series/#{serie_id}/all/#{language}.xml")
+      uri = URI.parse("http://thetvdb.com/api/#{@api_key}/series/#{serie_id}/all/#{language}.xml")
       res = RemoteRequest.new("get").read(uri)
       
       if res.nil?
@@ -81,9 +81,6 @@ module RubyTVScripts
       end
       
       doc = Nokogiri::XML(res)
-      doc.xpath("Data").each do |element|
-        return element
-      end
     end
 
     
