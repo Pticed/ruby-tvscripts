@@ -14,6 +14,7 @@ Gem::Specification.new do |spec|
                 "lib/ruby-tvscripts/episode.rb",
                 "lib/ruby-tvscripts/config.rb",
                 "lib/ruby-tvscripts/cache.rb",
+                "lib/ruby-tvscripts/filescanner.rb",
                 "lib/ruby-tvscripts/thetvdb.rb",
                 "lib/ruby-tvscripts/betaseries.rb",
                 "lib/ruby-tvscripts/tvrage.rb",

@@ -87,5 +87,19 @@ describe RubyTVScripts::FileScanner do
 
     files.should == ["/file1.txt"]
   end
+  
+  it "should work with relative paths" do
+    FakeFS.deactivate!
+
+    files = []
+    Dir.chdir fixtures_fs_dir do
+      @scanner.scan_files(".") do |file|
+        files << file
+      end
+    end
+
+    files.should == [ File.join(Dir.pwd, fixtures_fs_dir, "file1.txt") ]
+    
+  end
 
 end

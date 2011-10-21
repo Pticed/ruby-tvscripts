@@ -4,13 +4,13 @@ module RubyTVScripts
 
     attr_accessor :ignored_folders, :accepted_extensions
 
-    def initialize options = {}
+    def initialize
       @ignored_folders = []
       @accepted_extensions = []
     end
 
     def scan_files start_path
-      paths = [ start_path ]
+      paths = [ File.expand_path(start_path) ]
       
       while path = paths.shift
         if File.directory?(path)
