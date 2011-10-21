@@ -12,6 +12,10 @@ describe RubyTVScripts::FileScanner do
     @scanner = RubyTVScripts::FileScanner.new
     FakeFS.activate!
   end
+  
+  after(:all) do
+    FakeFS.deactivate!
+  end
 
   before(:each) do
     FileSystem.clear
