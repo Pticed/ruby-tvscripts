@@ -13,3 +13,7 @@ RSpec.configure do |c|
   c.extend VCR::RSpec::Macros
   c.filter_run_excluding :disabled => true
 end
+
+def fixtures_fs_dir 
+  "spec/fixtures/fs"
+end
