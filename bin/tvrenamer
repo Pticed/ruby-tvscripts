@@ -20,6 +20,7 @@ require 'time'
 
 require 'ruby-tvscripts/serie'
 require 'ruby-tvscripts/config'
+require 'ruby-tvscripts/filescanner'
 
 # How long to cache files.  Set to 16 days so that it doesn't redownload
 # if a series skips a week, and 2 extra days incase of a slow release.
@@ -319,7 +320,11 @@ fetcher = RubyTVScripts::TheTVDB.new 'F63030FC56E9E594'
 #fetcher = RubyTVScripts::BetaSeries.new @@config['betaseries_key']
 
 puts "Starting to scan files" unless ENV['QUIET'] == "true"
-Dir.glob("**/*.{avi,mpg,mpeg,mp4,m4v,divx,mkv}") do |filename|
+
+scanner = RubyTVScripts::FileScanner.new
+scanner.accepted_extensions = %w(avi mpg mpeg mp4 m4v divx mkv)
+
+scanner.scan_files "." do |filename|
   filename = filename.to_s
   if nocache or @@renamer_cache[filename].nil? or @@renamer_cache[filename] < (Time.now - @@time_to_live)
     @@renamer_cache.delete(filename)
