@@ -323,6 +323,7 @@ puts "Starting to scan files" unless ENV['QUIET'] == "true"
 
 scanner = RubyTVScripts::FileScanner.new
 scanner.accepted_extensions = %w(avi mpg mpeg mp4 m4v divx mkv)
+scanner.ignored_folders = @@config["ignored_folders"] if @@config["ignored_folders"]
 
 scanner.scan_files "." do |filename|
   filename = filename.to_s
