@@ -21,6 +21,8 @@ require 'time'
 require 'ruby-tvscripts/serie'
 require 'ruby-tvscripts/config'
 require 'ruby-tvscripts/filescanner'
+require 'ruby-tvscripts/thetvdb'
+require 'ruby-tvscripts/betaseries'
 
 # How long to cache files.  Set to 16 days so that it doesn't redownload
 # if a series skips a week, and 2 extra days incase of a slow release.
@@ -107,9 +109,6 @@ cache_file.readlines.each { |line|
     @@renamer_cache.merge!({arr[1] => Time.parse(arr[0])})
 } if cache_file.file?
 puts "Loaded cache" unless ENV['QUIET'] == "true"
-
-require 'ruby-tvscripts/thetvdb'
-require 'ruby-tvscripts/betaseries'
 
 puts "Starting to scan files" unless ENV['QUIET'] == "true"
 
