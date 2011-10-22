@@ -110,8 +110,6 @@ cache_file.readlines.each { |line|
 } if cache_file.file?
 puts "Loaded cache" unless ENV['QUIET'] == "true"
 
-puts "Starting to scan files" unless ENV['QUIET'] == "true"
-
 module RubyTVScripts
   
   class TvRenamer
@@ -127,6 +125,7 @@ module RubyTVScripts
     end
     
     def start
+      puts "Starting to scan files" unless ENV['QUIET'] == "true"
       @scanner.scan_files @path do |filename|
         rename filename
       end
