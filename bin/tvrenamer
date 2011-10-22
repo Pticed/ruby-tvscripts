@@ -123,8 +123,8 @@ module RubyTVScripts
       @scanner = FileScanner.new
       @scanner.accepted_extensions = %w(avi mpg mpeg mp4 m4v divx mkv)
       @scanner.ignored_folders = @config["ignored_folders"] if @config["ignored_folders"]
-      @fetcher = RubyTVScripts::TheTVDB.new 'F63030FC56E9E594'
-      #@fetcher = RubyTVScripts::BetaSeries.new config['betaseries_key']
+      @fetcher = TheTVDB.new 'F63030FC56E9E594'
+      #@fetcher = BetaSeries.new config['betaseries_key']
     end
     
     def start
@@ -224,7 +224,7 @@ module RubyTVScripts
       #Filename has not changed
       if new_filename.to_s == filename.to_s
         @@renamer_cache.merge!({new_filename => Time.now})
-        RubyTVScripts::Config.file_path("renamer_cache.txt").open("a")  {|file| file.puts "#{Time.now.to_s}|||||#{new_filename}"}
+        Config.file_path("renamer_cache.txt").open("a")  {|file| file.puts "#{Time.now.to_s}|||||#{new_filename}"}
         return filename
       end
 
@@ -236,7 +236,7 @@ module RubyTVScripts
         File.rename(filename, new_filename) unless filename == new_filename
         puts
         @@renamer_cache.merge!({new_filename => Time.now})
-        RubyTVScripts::Config.file_path("renamer_cache.txt").open("a")  {|file| file.puts "#{Time.now.to_s}|||||#{new_filename}"}
+        Config.file_path("renamer_cache.txt").open("a")  {|file| file.puts "#{Time.now.to_s}|||||#{new_filename}"}
       end
 
       filename = new_filename
