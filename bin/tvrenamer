@@ -23,6 +23,7 @@ require 'ruby-tvscripts/config'
 require 'ruby-tvscripts/filescanner'
 require 'ruby-tvscripts/thetvdb'
 require 'ruby-tvscripts/betaseries'
+require 'ruby-tvscripts/pathextracter'
 
 # How long to cache files.  Set to 16 days so that it doesn't redownload
 # if a series skips a week, and 2 extra days incase of a slow release.
@@ -122,6 +123,7 @@ module RubyTVScripts
       @scanner.ignored_folders = @config["ignored_folders"] if @config["ignored_folders"]
       @fetcher = TheTVDB.new 'F63030FC56E9E594'
       #@fetcher = BetaSeries.new config['betaseries_key']
+      @path_extracter = PathExtracter.new
     end
     
     def start
@@ -277,30 +279,14 @@ module RubyTVScripts
     def get_details(file, refresh, fetcher)
       
       # figure out what the show is based on path and filename
-      season = nil
-      show_name = nil
+      path_infos = @path_extracter.analyse file.parent.to_s
       
-      file.parent.ascend do |item|
-        if not season
-          season = /\d+/.match(item.basename.to_s)
-          if season
-            #possibly we may want special handling for 24
-            season = season[0]
-          else
-            season = "1"
-            show_name = item.basename.to_s
-            break
-          end
-        else
-          show_name = item.basename.to_s
-          break
-        end
-      end
-      
+      season = path_infos[:season]
+      show_name = path_infos[:show]
+      language = path_infos[:lang]
+            
       return nil unless  /\d+/ =~ file.basename
   
-      language = file.parent.basename.to_s.match(/Saison/i) ? 'fr': 'en'
-      
       # check for a match in the style of 1x01
       if /(\d+)[x|X](\d+)([x|X](\d+))?/ =~ file.basename
         unless $4.nil?
